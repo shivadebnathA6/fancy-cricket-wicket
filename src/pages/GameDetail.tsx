@@ -1,10 +1,17 @@
-
 import { useParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Trophy, ArrowRight } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const GameDetail = () => {
   const { gameId } = useParams();
@@ -91,7 +98,7 @@ const GameDetail = () => {
           </CardContent>
         </Card>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-6">
           {bettingOptions.map((option) => (
             <Card key={option.id} className="card-gradient border-0">
               <CardContent className="p-6">
@@ -100,21 +107,32 @@ const GameDetail = () => {
                   {option.title}
                 </h3>
                 
-                <div className="space-y-3">
-                  {option.options.map((bet, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-muted/20 rounded-lg hover:bg-muted/30 transition-colors">
-                      <span className="font-medium">{bet.name}</span>
-                      <div className="flex items-center gap-3">
-                        <Badge variant="outline" className="bg-primary/20 text-primary">
-                          {bet.odds}
-                        </Badge>
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                          <ArrowRight className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Selection</TableHead>
+                      <TableHead className="text-right">Odds</TableHead>
+                      <TableHead className="w-[50px]"></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {option.options.map((bet, index) => (
+                      <TableRow key={index} className="hover:bg-muted/30 transition-colors">
+                        <TableCell className="font-medium">{bet.name}</TableCell>
+                        <TableCell className="text-right">
+                          <Badge variant="outline" className="bg-primary/20 text-primary">
+                            {bet.odds}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                            <ArrowRight className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </CardContent>
             </Card>
           ))}
